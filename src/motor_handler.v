@@ -30,6 +30,7 @@ module motor_handler(
   input wire        vsync,
   input wire        clk,
   input wire        reset,
+  input wire[1:0]   game_speed,
   output wire[14:0] ctrl
 );
   reg[1:0] reshold;
@@ -45,7 +46,11 @@ module motor_handler(
   // 10000001ii 0iissssstt  i:movidx    s:movstep   t:movtick
   // 1000000001 0__ssssstt  s:movstep   t:movtick             (test)
   //
-  wire dxyen = vpos[9] & ~|{vpos[8:0],hpos[9:6]};
+  reg turn_frame;
+  wire turn_15x = game_speed[1] & ~game_speed[0];
+  wire turn_2x = game_speed[1] & game_speed[0];
+  wire extra_turn_pass = turn_2x | (turn_15x & turn_frame);
+  wire dxyen = vpos[9] & ~|{vpos[8:1],hpos[9:6]} & (~vpos[0] | extra_turn_pass);
   wire[3:0] dxystep = hpos[5:2];
   //wire moven = vpos[9] & ~|{vpos[8:1]} & vpos[0] & ~|{hpos[9]};   //(test)
   wire moven = vpos[9] & ~|{vpos[8:3],hpos[9]} & vpos[2];
@@ -100,11 +105,13 @@ module motor_handler(
   end
   always @(posedge vsync) begin
     spdcnt <= {spdcnt[0], ~spdcnt[1]};
+    turn_frame <= ~turn_frame;
   end
+  wire speed_clk = turn_2x ? vsync : spdcnt[1];
 
   assign ctrl = {
     hpos[0] ^ vpos[0],                      // [14] deathmask
-    spdcnt[1],                              // [13] spdclk
+    speed_clk,                              // [13] spdclk
     movgate,                                // [12:9] mov index
     movop[2],                               // [8] mov echo
     movop[1],                               // [7] mov start

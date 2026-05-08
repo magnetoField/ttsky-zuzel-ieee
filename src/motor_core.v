@@ -55,6 +55,7 @@ endmodule
 
 module motor_core(
   input  wire[9:0]  RESET_Y,
+  input  wire[1:0]  game_speed,
   input  wire[14:0] ctrl,
   input  wire       clk,
   input  wire       steer,
@@ -84,8 +85,30 @@ module motor_core(
 
   // Speed handling
   reg[3:0] speed;
-  wire sp_inc = (speed<6) | ((speed<10) & ~steer);
-  wire sp_dec = (speed>6) & steer;
+  wire s0 = speed[0];
+  wire s1 = speed[1];
+  wire s2 = speed[2];
+  wire s3 = speed[3];
+  wire ns0 = ~s0;
+  wire ns1 = ~s1;
+  wire ns2 = ~s2;
+  wire ns3 = ~s3;
+  wire gs0 = game_speed[0];
+  wire gs1 = game_speed[1];
+  wire ngs0 = ~gs0;
+  wire ngs1 = ~gs1;
+  wire gs_all = gs1 & gs0;
+  wire low_any = s1 | s0;
+  wire low_all = s1 & s0;
+  wire nlow_any = ~low_any;
+  wire nlow_all = ~low_all;
+  wire speed_lt_min = ns3 & ((ns2 & (gs1 | ns1 | (gs0 & ns0))) | (gs_all & nlow_all));
+  wire speed_gt_min = s3 | (s2 & (ngs1 | (ngs0 & low_any))) | (ngs1 & ngs0 & low_all);
+  wire speed_lt_max_lo = ns3 & ((ns2 & (nlow_all | gs0)) | (gs0 & nlow_any));
+  wire speed_lt_max_hi = ns3 | (ns2 & ns1) | (gs0 & (ns2 | ns1 | ns0));
+  wire speed_lt_max = (gs1 & speed_lt_max_hi) | (ngs1 & speed_lt_max_lo);
+  wire sp_inc = speed_lt_min | (speed_lt_max & ~steer);
+  wire sp_dec = speed_gt_min & steer;
   wire[3:0] sp_add = { sp_dec, sp_dec, sp_dec, sp_inc|sp_dec };    // 0:0000   I:0001   D:1111
   always @(posedge spd_clk) begin
     speed <= (speed + sp_add) & {4{nr}};
