@@ -1,7 +1,7 @@
 
 # Tiny Tapeout project information
 project:
-  title:        "KK Zuzel / Motocross"      # Project title
+  title:        "KK Zuzel Motocross IEEE"      # Project title
   author:       "Krzysztof Kluczek"      # Your name
   discord:      "kkaltair"      # Your discord username, for communication and automatically assigning you a Tapeout role (optional)
   description:  "A motor track racing game for up to 4 players, each using only one button."      # One line description of what your project does
