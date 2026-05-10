@@ -1,8 +1,11 @@
 ![](../../workflows/gds/badge.svg) ![](../../workflows/docs/badge.svg) ![](../../workflows/test/badge.svg) ![](../../workflows/fpga/badge.svg)
 
-# Zuzel game by Piotr Kamiński created in 1994 ported to pure silicon architecture sponsored by IEEE
-[Watch game play of original game here](https://www.youtube.com/watch?v=TAxoQyd6Lxc)
+# Zuzel game harden in silicon by Krzysztof Kluczek 
+Original repository here: [https://github.com/Krzysiek-K](https://github.com/Krzysiek-K)
+![gds render](KK-vga.png)
 
+## Inspired by Piotr Kamiński game created in 1994
+[Watch game play of original game here](https://www.youtube.com/watch?v=TAxoQyd6Lxc)
 Custom CPU architecture was designed to fit complete project on a small area of silicon (100 um x 160 um).
 
 ## How it works
