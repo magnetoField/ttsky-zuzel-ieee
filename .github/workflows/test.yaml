@@ -12,23 +12,28 @@ jobs:
       - name: Install iverilog
         shell: bash
         run: sudo apt-get update && sudo apt-get install -y iverilog
+            
+      - name: Install iverilog
+        run: sudo apt-get update && sudo apt-get install -y iverilog
       
-      - name: Install Verilator 5.036+ (prebuilt)
+      - name: Cache Verilator .deb
+        id: cache-verilator-deb
+        uses: actions/cache@v4
+        with:
+          path: verilator.deb
+          key: verilator-5.048-deb-${{ runner.os }}
+      
+      - name: Download Verilator .deb
+        if: steps.cache-verilator-deb.outputs.cache-hit != 'true'
         run: |
-          sudo apt-get update
-          sudo apt-get install -y wget
+          wget -O verilator.deb https://deb.debian.org/debian/pool/main/v/verilator/verilator_5.048-1_amd64.deb
       
-          wget https://github.com/verilator/verilator/releases/download/v5.036/verilator-5.036.tgz
-          tar -xzf verilator-5.036.tgz
-          cd verilator-5.036
+      - name: Install Verilator
+        run: |
+          sudo apt-get install -y ./verilator.deb || sudo apt-get -f install -y
       
-          sudo apt-get install -y \
-            make autoconf g++ flex bison libfl-dev zlib1g-dev
-      
-          ./configure
-          make -j$(nproc)
-          sudo make install
-
+      - name: Check Verilator version
+        run: verilator --version
       # Set Python up and install cocotb
       - name: Setup python
         uses: actions/setup-python@v5
