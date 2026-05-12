@@ -2,7 +2,7 @@ name: test
 on: [push, workflow_dispatch]
 jobs:
   test:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -11,26 +11,8 @@ jobs:
 
       - name: Install iverilog
         shell: bash
-        run: sudo apt-get update && sudo apt-get install -y iverilog libjs-sphinxdoc sphinx-rtd-theme-common libsystemc-dev
+        run: sudo apt-get update && sudo apt-get install -y iverilog verilator
       
-      - name: Cache Verilator .deb
-        id: cache-verilator-deb
-        uses: actions/cache@v4
-        with:
-          path: verilator.deb
-          key: verilator-5.048-deb-${{ runner.os }}
-      
-      - name: Download Verilator .deb
-        if: steps.cache-verilator-deb.outputs.cache-hit != 'true'
-        run: |
-          wget -O verilator.deb https://deb.debian.org/debian/pool/main/v/verilator/verilator_5.048-1_amd64.deb
-      
-      - name: Install Verilator
-        run: |
-          sudo apt-get install -y ./verilator.deb || sudo apt-get -f install -y
-      
-      - name: Check Verilator version
-        run: verilator --version
       # Set Python up and install cocotb
       - name: Setup python
         uses: actions/setup-python@v5
