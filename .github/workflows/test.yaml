@@ -13,17 +13,18 @@ jobs:
         shell: bash
         run: sudo apt-get update && sudo apt-get install -y iverilog
       
-      - name: Install Verilator 5.036+
+      - name: Install Verilator 5.036+ (prebuilt)
         run: |
           sudo apt-get update
+          sudo apt-get install -y wget
+      
+          wget https://github.com/verilator/verilator/releases/download/v5.036/verilator-5.036.tgz
+          tar -xzf verilator-5.036.tgz
+          cd verilator-5.036
+      
           sudo apt-get install -y \
-          git make autoconf g++ flex bison libfl-dev zlib1g-dev
-
-          git clone https://github.com/verilator/verilator.git
-          cd verilator
-          git checkout v5.036
-
-          autoconf
+            make autoconf g++ flex bison libfl-dev zlib1g-dev
+      
           ./configure
           make -j$(nproc)
           sudo make install
