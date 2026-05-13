@@ -53,10 +53,11 @@ async def test_project(dut):
 
     # Reset the design
     dut.ena.value = 1
-    dut.ui_in.value = 0
+    dut.ui_in.value = 255
     dut.uio_in.value = 0
     dut.rst_n.value = 0
     await ClockCycles(dut.clk, 10)
+    dut.ui_in.value=0
     dut.rst_n.value = 1
     await ClockCycles(dut.clk, 2)
 
@@ -116,7 +117,7 @@ async def test_project(dut):
 
 @cocotb.test()
 async def compare_reference(dut):
-#    cocotb.pass_test()
+#cocotb.pass_test()
 
     for img in glob.glob("output/frame*.png"):
         basename = img.removeprefix("output/")
