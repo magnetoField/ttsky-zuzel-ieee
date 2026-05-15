@@ -53,12 +53,14 @@ async def test_project(dut):
 
     # Reset the design
     dut.ena.value = 1
-    dut.ui_in.value = 255
+    dut.ui_in.value = 20
     dut.uio_in.value = 0
     dut.rst_n.value = 0
     await ClockCycles(dut.clk, 10)
     dut.ui_in.value=0
     dut.rst_n.value = 1
+    await ClockCycles(dut.clk, 20)
+    dut.ui_in.value = 20
     await ClockCycles(dut.clk, 200)
 
     # Define some functions for capturing lines & frames
