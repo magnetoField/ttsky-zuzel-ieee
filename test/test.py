@@ -62,6 +62,8 @@ async def test_project(dut):
     await ClockCycles(dut.clk, 20)
     dut.ui_in.value = 20
     await ClockCycles(dut.clk, 200)
+    dut.ui_in.value = 0
+    await ClockCycles(dut.clk, 2000000)
 
     # Define some functions for capturing lines & frames
 
