@@ -20,6 +20,7 @@ Original repository: [https://github.com/Krzysiek-K/KK-Zuzel-VGA](https://github
 
 ### Game screenshot.
 ![image](Screenshot.png)
+
 ### All 4 available tracks.
 ![image](AllTracks.png)
 The chip design features:
