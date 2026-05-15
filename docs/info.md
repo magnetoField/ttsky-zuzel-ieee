@@ -17,20 +17,14 @@ Outpace your opponents and don't fall out of the track!
 
 Playable online version & (upcoming) writeup: [http://devkk.net/index.php?tag=games&id=39](http://devkk.net/index.php?tag=games&id=39)
 Original repository: [https://github.com/Krzysiek-K/KK-Zuzel-VGA](https://github.com/Krzysiek-K/KK-Zuzel-VGA)
-
-Game screenshot:
 ![image](Screenshot.png)
-
-All 4 available tracks:
 ![image](AllTracks.png)
-
 The chip design features:
 - 7-bit track generator CPU (with 3 custom instructions)
 - Common player control block (generating 15 control signals)
 - 4x player simulation block (each featuring 4 registers, 2x streaming 1-bit ALUs and a 7x7 sprite generator)
 - VGA timing generator
 - Top level logic (tying everything together, generating final video signal and performing collision detection)
-
 
 ## How to test
 
