@@ -17,7 +17,10 @@ Outpace your opponents and don't fall out of the track!
 
 Playable online version & (upcoming) writeup: [http://devkk.net/index.php?tag=games&id=39](http://devkk.net/index.php?tag=games&id=39)
 Original repository: [https://github.com/Krzysiek-K/KK-Zuzel-VGA](https://github.com/Krzysiek-K/KK-Zuzel-VGA)
+
+### Game screenshot.
 ![image](Screenshot.png)
+### All 4 available tracks.
 ![image](AllTracks.png)
 The chip design features:
 - 7-bit track generator CPU (with 3 custom instructions)
