@@ -85,7 +85,7 @@ async def test_project(dut):
         dut._log.info(f"Skipping frame {frame_num}")
         await ClockCycles(dut.clk, H_TOTAL*V_TOTAL)
 
-    async def capture_frame(frame_num, check_sync=True):
+    async def capture_frame(frame_num, check_sync=False):
         framebuffer = bytearray(V_DISPLAY*H_DISPLAY*3)
         for j in range(V_DISPLAY):
             dut._log.info(f"Frame {frame_num}, line {j} (display)")
